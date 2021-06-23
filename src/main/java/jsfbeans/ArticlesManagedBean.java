@@ -16,6 +16,7 @@ public class ArticlesManagedBean implements Serializable {
     private Integer articleId = null;
     private String articleName = null;
     private int articleAmount = 0;
+    private Articles article;
 
     private List<Articles> _articlesList;
 
@@ -60,23 +61,33 @@ public class ArticlesManagedBean implements Serializable {
 
     public void setArticleAmount(int articleAmount) {
         this.articleAmount = articleAmount;
-    } 
-    
-    
+    }
 
     public void addArticle() {
-        Articles article = new Articles(null, articleName, articleAmount);
-        articlesFacadeLocal.create(article);
+        Articles articleTemp = articlesFacadeLocal.find(articleId);
+        if (articleTemp != null) {
+            if (!articleTemp.getName().equals(articleName)) {
+                article = new Articles(null, articleName, articleAmount);
+                articlesFacadeLocal.create(article);
+            }
+        }
     }
 
     public void removeArticle() {
-        Articles article = new Articles(articleId, articleName, articleAmount);
-        articlesFacadeLocal.remove(article);
+        Articles articleTemp = articlesFacadeLocal.find(articleId);
+        articlesFacadeLocal.remove(articleTemp);
     }
 
     public void updateArticle() {
-        Articles article = new Articles(articleId, articleName, articleAmount);
-        articlesFacadeLocal.edit(article);
+        Articles articleTemp = articlesFacadeLocal.find(articleId);
+        
+        if (articleTemp != null) {
+            if (articleTemp.getName().equals(articleName)) {
+                if (!(articleTemp.getAmount() == articleAmount)) {
+                    article = new Articles(articleTemp.getId(), articleName, articleAmount);
+                    articlesFacadeLocal.edit(article);
+                }
+            }
+        }
     }
-
 }

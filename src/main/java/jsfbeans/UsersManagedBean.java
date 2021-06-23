@@ -85,12 +85,16 @@ public class UsersManagedBean implements Serializable {
     }
 
     public void register() {
-        if (usernameInput != null && passwordInput != null) {
-            if (!usernameInput.isEmpty() && !passwordInput.isEmpty()) {
-                if (roleId > 0 && roleId < 3) {
-                    Role newRole = new Role(roleId);
-                    Users newUser = new Users(null, usernameInput, passwordInput, newRole);
-                    personFacadeLocal.create(newUser);
+        for (Users userTemp : _usersList) {
+            if (!userTemp.getUsername().equals(usernameInput)) {
+                if (usernameInput != null && passwordInput != null) {
+                    if (!usernameInput.isEmpty() && !passwordInput.isEmpty()) {
+                        if (roleId > 0 && roleId < 3) {
+                            Role newRole = new Role(roleId);
+                            Users user = new Users(null, usernameInput, passwordInput, newRole);
+                            personFacadeLocal.create(user);
+                        }
+                    }
                 }
             }
         }
