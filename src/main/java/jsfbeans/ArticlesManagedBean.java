@@ -64,23 +64,22 @@ public class ArticlesManagedBean implements Serializable {
     }
 
     public void addArticle() {
-        Articles articleTemp = articlesFacadeLocal.find(articleId);
-        if (articleTemp != null) {
-            if (!articleTemp.getName().equals(articleName)) {
-                article = new Articles(null, articleName, articleAmount);
-                articlesFacadeLocal.create(article);
-            }
+        for (Articles article : _articlesList) {
+                if (!article.getName().equals(articleName)) {
+                    Articles articleTemp = new Articles(null, articleName, articleAmount);
+                    articlesFacadeLocal.create(article);
+                }
         }
     }
 
-    public void removeArticle() {
+    public String removeArticle(Integer articleId) {
         Articles articleTemp = articlesFacadeLocal.find(articleId);
         articlesFacadeLocal.remove(articleTemp);
+        return "";
     }
 
-    public void updateArticle() {
+    public String updateArticle(Integer articleId) {
         Articles articleTemp = articlesFacadeLocal.find(articleId);
-        
         if (articleTemp != null) {
             if (articleTemp.getName().equals(articleName)) {
                 if (!(articleTemp.getAmount() == articleAmount)) {
@@ -89,5 +88,6 @@ public class ArticlesManagedBean implements Serializable {
                 }
             }
         }
+        return "";
     }
 }
