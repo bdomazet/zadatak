@@ -7,20 +7,21 @@
         <title>Add Article</title>
     </h:head>
     <h:body>
+        <h3>Update article</h3>
         <h:form>
 
-            Input Article Name: <h:inputText value="#{articlesManagedBean.articleName}"/>
+            Input Article Name: <h:inputText value="#{articleTemp.name}"/>
 
             <br></br>
 
-            Input Article Amount: <h:inputText value="#{articlesManagedBean.articleAmount}"/>
+            Input Article Amount: <h:inputText value="#{articleTemp.amount}"/>
 
             
             <br></br>
             <br></br>
             
 
-            <h:commandButton value="Add Article" action="#{articlesManagedBean.addArticle()}" />
+            <h:commandButton value="Update Article" action="#{articlesManagedBean.updateArticle(article.id)}" />
 
             <br></br>
 

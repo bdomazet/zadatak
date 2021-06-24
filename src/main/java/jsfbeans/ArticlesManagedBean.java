@@ -7,7 +7,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.view.facelets.FaceletContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import zadatak.app.entity.Articles;
@@ -96,7 +95,7 @@ public class ArticlesManagedBean implements Serializable {
         Articles articleTemp = articlesFacadeLocal.find(id);
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, Object> requestMap = externalContext.getRequestMap();
-        requestMap.put("article", articleTemp);
+        requestMap.put("articleTemp", articleTemp);
         return "article-update";
     }
 }
