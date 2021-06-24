@@ -2,11 +2,8 @@ package jsfbeans;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import zadatak.app.entity.Articles;
@@ -78,24 +75,16 @@ public class ArticlesManagedBean implements Serializable {
         return "write";
     }
 
-    public String updateArticle(Integer articleId) {
+    public String updateArticle() {
         Articles articleTemp = articlesFacadeLocal.find(articleId);
-        if (articleTemp != null) {
-            if (articleTemp.getName().equals(articleName)) {
-                if (!(articleTemp.getAmount() == articleAmount)) {
-                    article = new Articles(articleTemp.getId(), articleName, articleAmount);
+        for (Articles artcleTemp : _articlesList) {
+            if (articleTemp != null) {
+                if (artcleTemp.getId().equals(articleId)) {
+                    article = new Articles(articleId, articleName, articleAmount);
                     articlesFacadeLocal.edit(article);
                 }
             }
         }
         return "write";
-    }
-
-    public String loadArticle(int id) {
-        Articles articleTemp = articlesFacadeLocal.find(id);
-        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        Map<String, Object> requestMap = externalContext.getRequestMap();
-        requestMap.put("articleTemp", articleTemp);
-        return "article-update";
     }
 }

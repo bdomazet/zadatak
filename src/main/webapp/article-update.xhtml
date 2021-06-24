@@ -9,17 +9,42 @@
     <h:body>
         <h3>Update article</h3>
         <h:form>
+
+            <h:dataTable value="#{articlesManagedBean.articlesList}" var="articles">
+                <h:column>
+                    <f:facet name="header">ID</f:facet>
+                        #{articles.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Name</f:facet>
+                        #{articles.name}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Amount</f:facet>
+                        #{articles.amount}
+                </h:column>
+
+            </h:dataTable>
+
+            <br></br>
+            <br></br>
             
-            Input Article Name: <h:inputText value="#{articleTemp.name}"/>
+            <h3>Please input article id, name and amount from the list above</h3>
+
+            Input Article Id: <h:inputText value="#{articlesManagedBean.articleId}"/>
 
             <br></br>
 
-            Input Article Amount: <h:inputText value="#{articleTemp.amount}"/>
+            Input Article Name: <h:inputText value="#{articlesManagedBean.articleName}"/>
+
+            <br></br>
+
+            Input Article Amount: <h:inputText value="#{articlesManagedBean.articleAmount}"/>
 
             <br></br>
             <br></br>
-            
-            <h:commandButton value="Update Article" action="#{articlesManagedBean.updateArticle(article.id)}" />
+
+            <h:commandButton value="Update Article" action="#{articlesManagedBean.updateArticle()}" />
 
             <br></br>
 
