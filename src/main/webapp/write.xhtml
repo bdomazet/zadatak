@@ -20,13 +20,16 @@
                 <f:facet name="header">Amount</f:facet>
                     #{articles.amount}
             </h:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <h:commandButton value="Update" action="#{articlesManagedBean.loadArticle(articles.id)}"
+                    #{articles.amount}
+            </h:column>
 
         </h:dataTable>
         <br></br>
         <h:form>
             <h:commandButton value="New Article" action="article-add"/>
-            <h:commandButton value="Update Article" action="article-update"/>
-            <h:commandButton value="Delete Article" action="article-delete"/>
         </h:form>
     </h:body>
 </html>

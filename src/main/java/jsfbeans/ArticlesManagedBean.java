@@ -2,8 +2,12 @@ package jsfbeans;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.faces.view.facelets.FaceletContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import zadatak.app.entity.Articles;
@@ -63,13 +67,10 @@ public class ArticlesManagedBean implements Serializable {
         this.articleAmount = articleAmount;
     }
 
-    public void addArticle() {
-        for (Articles article : _articlesList) {
-                if (!article.getName().equals(articleName)) {
-                    Articles articleTemp = new Articles(null, articleName, articleAmount);
-                    articlesFacadeLocal.create(article);
-                }
-        }
+    public String addArticle() {
+        Articles articleTemp = new Articles(null, articleName, articleAmount);
+        articlesFacadeLocal.create(articleTemp);
+        return "";
     }
 
     public String removeArticle(Integer articleId) {
@@ -89,5 +90,13 @@ public class ArticlesManagedBean implements Serializable {
             }
         }
         return "";
+    }
+
+    public String loadArticle(int id) {
+        Articles articleTemp = articlesFacadeLocal.find(id);
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        Map<String, Object> requestMap = externalContext.getRequestMap();
+        requestMap.put("article", articleTemp);
+        return "article-update";
     }
 }
