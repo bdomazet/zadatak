@@ -69,13 +69,13 @@ public class ArticlesManagedBean implements Serializable {
     public String addArticle() {
         Articles articleTemp = new Articles(null, articleName, articleAmount);
         articlesFacadeLocal.create(articleTemp);
-        return "";
+        return "write";
     }
 
     public String removeArticle(Integer articleId) {
         Articles articleTemp = articlesFacadeLocal.find(articleId);
         articlesFacadeLocal.remove(articleTemp);
-        return "";
+        return "write";
     }
 
     public String updateArticle(Integer articleId) {

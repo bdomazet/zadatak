@@ -84,7 +84,7 @@ public class UsersManagedBean implements Serializable {
         }
     }
 
-    public void register() {
+    public String register() {
         for (Users userTemp : _usersList) {
             if (!userTemp.getUsername().equals(usernameInput)) {
                 if (usernameInput != null && passwordInput != null) {
@@ -98,5 +98,6 @@ public class UsersManagedBean implements Serializable {
                 }
             }
         }
+        return "index";
     }
 }
