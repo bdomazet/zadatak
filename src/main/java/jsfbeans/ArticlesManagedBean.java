@@ -88,7 +88,7 @@ public class ArticlesManagedBean implements Serializable {
                 }
             }
         }
-        return "";
+        return "write";
     }
 
     public String loadArticle(int id) {
