@@ -7,21 +7,25 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import zadatak.app.entity.Role;
-import zadatak.app.entity.Users;
-import zadatak.app.entity.facade.UsersFacadeLocal;
+import zadatak.app.entity.User;
+import zadatak.app.entity.facade.RoleFacadeLocal;
+import zadatak.app.entity.facade.UserFacadeLocal;
 
 @Named(value = "usersManagedBean")
 @SessionScoped
 public class UsersManagedBean implements Serializable {
 
-    private List<Users> _usersList;
+    private List<User> _usersList;
     private String usernameInput = null;
     private String passwordInput = null;
     private int ID;
     private int roleId;
 
     @Inject
-    UsersFacadeLocal personFacadeLocal;
+    UserFacadeLocal personFacadeLocal;
+
+    @Inject
+    RoleFacadeLocal roleFacadeLocal;
 
     @PostConstruct
     private void init() {
@@ -32,11 +36,11 @@ public class UsersManagedBean implements Serializable {
     public UsersManagedBean() {
     }
 
-    public List<Users> getUsersList() {
+    public List<User> getUsersList() {
         return _usersList;
     }
 
-    public void setUsersList(List<Users> _usersList) {
+    public void setUsersList(List<User> _usersList) {
         this._usersList = _usersList;
     }
 
@@ -66,7 +70,7 @@ public class UsersManagedBean implements Serializable {
 
     public String login() {
         ID = 0;
-        for (Users user : _usersList) {
+        for (User user : _usersList) {
             if (usernameInput != null && usernameInput.equals(user.getUsername())) {
                 if (passwordInput != null && passwordInput.equals(user.getPassword())) {
                     ID = user.getId();
@@ -85,19 +89,12 @@ public class UsersManagedBean implements Serializable {
     }
 
     public String register() {
-        for (Users userTemp : _usersList) {
-            if (!userTemp.getUsername().equals(usernameInput)) {
-                if (usernameInput != null && passwordInput != null) {
-                    if (!usernameInput.isEmpty() && !passwordInput.isEmpty()) {
-                        if (roleId > 0 && roleId < 3) {
-                            Role newRole = new Role(roleId);
-                            Users user = new Users(null, usernameInput, passwordInput, newRole);
-                            personFacadeLocal.create(user);
-                        }
-                    }
-                }
-            }
-        }
+        Role role = roleFacadeLocal.find(roleId);
+        User user = new User();
+        user.setIdRole(role);
+        user.setUsername(usernameInput);
+        user.setPassword(passwordInput);
+        personFacadeLocal.create(user);
         return "index";
     }
 }

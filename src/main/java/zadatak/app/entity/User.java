@@ -6,35 +6,34 @@
 package zadatak.app.entity;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author borisdom
  */
 @Entity
-@Table(name = "role")
+@Table(name = "users")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r"),
-    @NamedQuery(name = "Role.findById", query = "SELECT r FROM Role r WHERE r.id = :id"),
-    @NamedQuery(name = "Role.findByRole", query = "SELECT r FROM Role r WHERE r.role = :role")})
-public class Role implements Serializable {
+    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
+    @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
+    @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
+    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password")})
+public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,21 +44,28 @@ public class Role implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
-    @Column(name = "role")
-    private String role;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idRole")
-    private List<User> userList;
+    @Column(name = "username")
+    private String username;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "password")
+    private String password;
+    @JoinColumn(name = "id_role", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Role idRole;
 
-    public Role() {
+    public User() {
     }
 
-    public Role(Integer id) {
+    public User(Integer id) {
         this.id = id;
     }
 
-    public Role(Integer id, String role) {
+    public User(Integer id, String username, String password) {
         this.id = id;
-        this.role = role;
+        this.username = username;
+        this.password = password;
     }
 
     public Integer getId() {
@@ -70,21 +76,28 @@ public class Role implements Serializable {
         this.id = id;
     }
 
-    public String getRole() {
-        return role;
+    public String getUsername() {
+        return username;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    @XmlTransient
-    public List<User> getUserList() {
-        return userList;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getIdRole() {
+        return idRole;
+    }
+
+    public void setIdRole(Role idRole) {
+        this.idRole = idRole;
     }
 
     @Override
@@ -97,10 +110,10 @@ public class Role implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Role)) {
+        if (!(object instanceof User)) {
             return false;
         }
-        Role other = (Role) object;
+        User other = (User) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -109,7 +122,7 @@ public class Role implements Serializable {
 
     @Override
     public String toString() {
-        return "zadatak.app.entity.Role[ id=" + id + " ]";
+        return "zadatak.app.entity.User[ id=" + id + " ]";
     }
     
 }

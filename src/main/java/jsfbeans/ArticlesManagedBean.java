@@ -6,8 +6,9 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import zadatak.app.entity.Articles;
-import zadatak.app.entity.facade.ArticlesFacadeLocal;
+import zadatak.app.entity.Article;
+import zadatak.app.entity.facade.ArticleFacadeLocal;
+
 
 @Named(value = "articlesManagedBean")
 @SessionScoped
@@ -16,12 +17,12 @@ public class ArticlesManagedBean implements Serializable {
     private Integer articleId = null;
     private String articleName = null;
     private int articleAmount = 0;
-    private Articles article;
+    private Article article;
 
-    private List<Articles> _articlesList;
+    private List<Article> _articlesList;
 
     @Inject
-    ArticlesFacadeLocal articlesFacadeLocal;
+    ArticleFacadeLocal articlesFacadeLocal;
 
     @PostConstruct
     private void init() {
@@ -31,11 +32,11 @@ public class ArticlesManagedBean implements Serializable {
     public ArticlesManagedBean() {
     }
 
-    public List<Articles> getArticlesList() {
+    public List<Article> getArticlesList() {
         return _articlesList;
     }
 
-    public void setArticlesList(List<Articles> _articlesList) {
+    public void setArticlesList(List<Article> _articlesList) {
         this._articlesList = _articlesList;
     }
 
@@ -64,23 +65,23 @@ public class ArticlesManagedBean implements Serializable {
     }
 
     public String addArticle() {
-        Articles articleTemp = new Articles(null, articleName, articleAmount);
+        Article articleTemp = new Article(null, articleName, articleAmount);
         articlesFacadeLocal.create(articleTemp);
         return "write";
     }
 
     public String removeArticle(Integer articleId) {
-        Articles articleTemp = articlesFacadeLocal.find(articleId);
+        Article articleTemp = articlesFacadeLocal.find(articleId);
         articlesFacadeLocal.remove(articleTemp);
         return "write";
     }
 
     public String updateArticle() {
-        Articles articleTemp = articlesFacadeLocal.find(articleId);
-        for (Articles artcleTemp : _articlesList) {
+        Article articleTemp = articlesFacadeLocal.find(articleId);
+        for (Article artcleTemp : _articlesList) {
             if (articleTemp != null) {
                 if (artcleTemp.getId().equals(articleId)) {
-                    article = new Articles(articleId, articleName, articleAmount);
+                    article = new Article(articleId, articleName, articleAmount);
                     articlesFacadeLocal.edit(article);
                 }
             }

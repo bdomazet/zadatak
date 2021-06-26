@@ -3,24 +3,21 @@ package zadatak.app.entity.facade;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import zadatak.app.entity.Users;
+import zadatak.app.entity.Article;
 
 @Stateless
-public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLocal{
+public class ArticleFacade extends AbstractFacade<Article> implements ArticleFacadeLocal {
 
     @PersistenceContext(unitName = "Task_PU")
-    private EntityManager entityManager;
-    
-    public UsersFacade() {
-        super(Users.class);
-    }
+    private EntityManager em;
 
     @Override
     protected EntityManager getEntityManager() {
-        return entityManager;
+        return em;
     }
-    
-    
 
+    public ArticleFacade() {
+        super(Article.class);
+    }
     
 }
