@@ -5,9 +5,11 @@
  */
 package zadatak.app.entity.facade;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import zadatak.app.entity.Role;
 
 /**
@@ -28,5 +30,6 @@ public class RoleFacade extends AbstractFacade<Role> implements RoleFacadeLocal 
     public RoleFacade() {
         super(Role.class);
     }
-    
+
+
 }

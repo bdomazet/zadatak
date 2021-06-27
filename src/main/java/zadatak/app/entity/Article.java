@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package zadatak.app.entity;
 
 import java.io.Serializable;
@@ -19,10 +14,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author borisdom
- */
 @Entity
 @Table(name = "articles")
 @XmlRootElement
@@ -85,6 +76,8 @@ public class Article implements Serializable {
     public void setAmount(int amount) {
         this.amount = amount;
     }
+    
+    /*
 
     @Override
     public int hashCode() {
@@ -104,11 +97,11 @@ public class Article implements Serializable {
             return false;
         }
         return true;
-    }
+    }*/
 
     @Override
     public String toString() {
-        return "zadatak.app.entity.Article[ id=" + id + " ]";
+        return id + "";
     }
     
 }

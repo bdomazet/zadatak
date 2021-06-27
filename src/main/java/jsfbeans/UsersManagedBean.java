@@ -3,7 +3,7 @@ package jsfbeans;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import zadatak.app.entity.Role;
@@ -12,25 +12,24 @@ import zadatak.app.entity.facade.RoleFacadeLocal;
 import zadatak.app.entity.facade.UserFacadeLocal;
 
 @Named(value = "usersManagedBean")
-@SessionScoped
+@RequestScoped
 public class UsersManagedBean implements Serializable {
 
     private List<User> _usersList;
-    private String usernameInput = null;
-    private String passwordInput = null;
-    private int ID;
+    private String usernameInput;
+    private String passwordInput;
     private int roleId;
+    private String roleString;
 
     @Inject
-    UserFacadeLocal personFacadeLocal;
+    UserFacadeLocal userFacadeLocal;
 
     @Inject
     RoleFacadeLocal roleFacadeLocal;
 
     @PostConstruct
     private void init() {
-        _usersList = personFacadeLocal.findAll();
-
+        _usersList = userFacadeLocal.findAll();
     }
 
     public UsersManagedBean() {
@@ -69,32 +68,28 @@ public class UsersManagedBean implements Serializable {
     }
 
     public String login() {
-        ID = 0;
-        for (User user : _usersList) {
-            if (usernameInput != null && usernameInput.equals(user.getUsername())) {
-                if (passwordInput != null && passwordInput.equals(user.getPassword())) {
-                    ID = user.getId();
-                }
-            } else {
-
+        User user = userFacadeLocal.findByUsername(usernameInput);
+        if (usernameInput != null && passwordInput != null) {
+            if (usernameInput.equals(user.getUsername()) && passwordInput.equals(user.getPassword())) {
+                roleString = user.getIdRole().getRole();
             }
         }
-        if (ID == 1) {
-            return "write";
-        } else if (ID == 2) {
+        if (roleString.equals("READ")) {
             return "read";
+        } else if (roleString.equals("WRITE")) {
+            return "write";
         } else {
             return "";
         }
     }
 
     public String register() {
-        Role role = roleFacadeLocal.find(roleId);
         User user = new User();
+        Role role = roleFacadeLocal.find(roleId);
         user.setIdRole(role);
         user.setUsername(usernameInput);
         user.setPassword(passwordInput);
-        personFacadeLocal.create(user);
+        userFacadeLocal.create(user);
         return "index";
     }
 }

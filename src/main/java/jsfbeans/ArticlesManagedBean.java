@@ -3,21 +3,19 @@ package jsfbeans;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import zadatak.app.entity.Article;
 import zadatak.app.entity.facade.ArticleFacadeLocal;
 
-
 @Named(value = "articlesManagedBean")
-@SessionScoped
+@RequestScoped
 public class ArticlesManagedBean implements Serializable {
 
     private Integer articleId = null;
     private String articleName = null;
     private int articleAmount = 0;
-    private Article article;
 
     private List<Article> _articlesList;
 
@@ -67,24 +65,24 @@ public class ArticlesManagedBean implements Serializable {
     public String addArticle() {
         Article articleTemp = new Article(null, articleName, articleAmount);
         articlesFacadeLocal.create(articleTemp);
+        init();
         return "write";
     }
 
     public String removeArticle(Integer articleId) {
         Article articleTemp = articlesFacadeLocal.find(articleId);
         articlesFacadeLocal.remove(articleTemp);
+        init();
         return "write";
     }
 
     public String updateArticle() {
         Article articleTemp = articlesFacadeLocal.find(articleId);
-        for (Article artcleTemp : _articlesList) {
-            if (articleTemp != null) {
-                if (artcleTemp.getId().equals(articleId)) {
-                    article = new Article(articleId, articleName, articleAmount);
-                    articlesFacadeLocal.edit(article);
-                }
-            }
+        if (articleTemp != null) {
+            articleTemp.setName(articleName);
+            articleTemp.setAmount(articleAmount);
+            articlesFacadeLocal.edit(articleTemp);
+            init();
         }
         return "write";
     }
