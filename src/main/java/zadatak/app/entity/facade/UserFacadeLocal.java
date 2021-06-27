@@ -20,8 +20,4 @@ public interface UserFacadeLocal {
 
     List<User> findAll();
 
-    List<User> findRange(int[] range);
-
-    int count();
-
 }

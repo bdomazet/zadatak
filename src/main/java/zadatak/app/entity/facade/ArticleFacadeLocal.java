@@ -17,9 +17,5 @@ public interface ArticleFacadeLocal {
     Article find(Object id);
 
     List<Article> findAll();
-
-    List<Article> findRange(int[] range);
-
-    int count();
     
 }

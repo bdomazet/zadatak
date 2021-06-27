@@ -70,8 +70,10 @@ public class UsersManagedBean implements Serializable {
     public String login() {
         User user = userFacadeLocal.findByUsername(usernameInput);
         if (usernameInput != null && passwordInput != null) {
-            if (usernameInput.equals(user.getUsername()) && passwordInput.equals(user.getPassword())) {
-                roleString = user.getIdRole().getRole();
+            if (user.getUsername() != null && user.getPassword() != null) {
+                if (usernameInput.equals(user.getUsername()) && passwordInput.equals(user.getPassword())) {
+                    roleString = user.getIdRole().getRole();
+                }
             }
         }
         if (roleString.equals("READ")) {

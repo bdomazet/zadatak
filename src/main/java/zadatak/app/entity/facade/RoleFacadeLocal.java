@@ -17,9 +17,5 @@ public interface RoleFacadeLocal {
     Role find(Object id);
 
     List<Role> findAll();
-
-    List<Role> findRange(int[] range);
-
-    int count();
     
 }

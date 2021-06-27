@@ -9,18 +9,21 @@
     <h:body>
         <h1>READ Page</h1>
         <h:dataTable value="#{articlesManagedBean.articlesList}" var="articles">
-        <h:column>
-            <f:facet name="header">ID</f:facet>
-                #{articles.id}
-        </h:column>
-        <h:column>
-            <f:facet name="header">Name</f:facet>
-                #{articles.name}
-        </h:column>
-        <h:column>
-            <f:facet name="header">Amount</f:facet>
-                #{articles.amount}
-        </h:column>
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                    #{articles.id}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                    #{articles.name}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Amount</f:facet>
+                    #{articles.amount}
+            </h:column>
         </h:dataTable>
+        <h:form>
+            <h:commandButton value="Index" action="index"/>
+        </h:form>
     </h:body>
 </html>
